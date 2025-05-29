@@ -3,14 +3,14 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException
 
-USERNAME = "jeffburner678"
+USERNAME = "brycool089@gmail.com"
 PASSWORD = "1ms1gmab0y"
 
 # Set up Chrome options
 options = Options()
-options.add_argument("--headless=new")  # Remove this line if you want to see the browser for debugging
+# Comment this out if you want to see the browser
+# options.add_argument("--headless=new")
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=options)
@@ -31,66 +31,53 @@ def login_instagram():
     login_button.click()
     time.sleep(6)
 
-    # Skip "Save Your Login Info?"
-    try:
-        not_now_btn = driver.find_element(By.XPATH, "//button[contains(text(), 'Not Now')]")
-        not_now_btn.click()
-        time.sleep(3)
-    except:
-        pass
-
-    # Skip "Turn on Notifications"
-    try:
-        not_now_btn2 = driver.find_element(By.XPATH, "//button[contains(text(), 'Not Now')]")
-        not_now_btn2.click()
-        time.sleep(3)
-    except:
-        pass
+    # Skip "Save Your Login Info?" and "Turn on Notifications"
+    for _ in range(2):
+        try:
+            not_now_btn = driver.find_element(By.XPATH, "//button[contains(text(), 'Not Now')]")
+            not_now_btn.click()
+            time.sleep(3)
+        except:
+            pass
 
 login_instagram()
 
-# === CONTINUE WITH YOUR SCRAPING ===
+# === GO TO PROFILE PAGE ===
 driver.get("https://www.instagram.com/legolandcalifornia/")
 time.sleep(5)
 
+# === SCROLL TO LOAD MORE POSTS ===
 post_urls = set()
-scroll_pause = 2
+scroll_pause_time = 4
 max_posts = 200
-last_height = driver.execute_script("return document.body.scrollHeight")
+scroll_attempts = 0
+max_scroll_attempts = 50
+prev_count = 0
 
-def try_click_show_more():
-    try:
-        buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'Show more') or contains(text(), 'Load more')]")
-        for button in buttons:
-            if button.is_displayed():
-                button.click()
-                time.sleep(2)
-                return True
-    except (ElementClickInterceptedException, ElementNotInteractableException):
-        pass
-    return False
+while len(post_urls) < max_posts and scroll_attempts < max_scroll_attempts:
+    # Scroll the actual page
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(scroll_pause_time)
 
-while len(post_urls) < max_posts:
-    links = driver.find_elements(By.TAG_NAME, 'a')
+    # Grab all post links
+    links = driver.find_elements(By.TAG_NAME, "a")
     for link in links:
         href = link.get_attribute('href')
         if href and ('/p/' in href or '/reel/' in href):
             post_urls.add(href)
-        if len(post_urls) >= max_posts:
-            break
 
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(scroll_pause)
-    try_click_show_more()
+    print(f"🔄 Attempt {scroll_attempts + 1}: Collected {len(post_urls)} post URLs so far.")
 
-    new_height = driver.execute_script("return document.body.scrollHeight")
-    if new_height == last_height:
-        break
-    last_height = new_height
+    if len(post_urls) == prev_count:
+        scroll_attempts += 1
+    else:
+        prev_count = len(post_urls)
+        scroll_attempts = 0  # reset on progress
 
 post_urls = list(post_urls)[:max_posts]
-print(f"✅ Found {len(post_urls)} post URLs.")
+print(f"✅ Done scrolling. Found {len(post_urls)} posts.")
 
+# === POST DATA EXTRACTION ===
 def extract_likes_or_views(driver):
     try:
         return driver.find_element(By.XPATH, "//span[contains(text(), 'likes')]/preceding-sibling::span").text
@@ -138,6 +125,7 @@ def process_instagram_post(url):
         print(f"❌ Error scraping {url}: {e}")
         return None
 
+# === PROCESS POSTS ===
 results = []
 for url in post_urls:
     print(f"🔍 Scraping: {url}")
@@ -145,6 +133,7 @@ for url in post_urls:
     if data:
         results.append(data)
 
+# === EXPORT TO CSV ===
 with open("legoland_posts.csv", "w", newline='', encoding="utf-8") as csvfile:
     fieldnames = ["url", "likes/views", "time_of_day"]
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -152,5 +141,5 @@ with open("legoland_posts.csv", "w", newline='', encoding="utf-8") as csvfile:
     for row in results:
         writer.writerow(row)
 
-print(f"✅ CSV created: legoland_posts.csv with {len(results)} valid posts")
+print(f"✅ CSV created: legoland_posts.csv with {len(results)} valid posts.")
 driver.quit()
