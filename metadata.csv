@@ -1,0 +1,21 @@
+video_length_seconds,top_tags,category,avg_thumbnail_click_rate_percent,contains_hook
+10,"funny,short,meme",Comedy,1.5,No
+20,"quick,facts,trending",Education,2.0,Yes
+30,"tutorial,howto,tech",Technology,3.5,Yes
+40,"review,bestof,gadget",Technology,5.0,Yes
+50,"lifestyle,vlog,dayinlife",Lifestyle,4.8,Yes
+60,"storytime,drama,truth",Lifestyle,3.8,Yes
+70,"react,viral,tiktok",Entertainment,3.5,Yes
+80,"news,opinion,debate",News,2.5,Yes
+90,"parody,satire,joke",Comedy,2.0,No
+100,"rant,hot take",Commentary,1.5,No
+110,"update,announcement",Commentary,1.2,No
+120,"simple,thoughts",Commentary,1.0,No
+130,"explain,teach,method",Education,3.2,Yes
+140,"docu,deep dive",Education,4.5,Yes
+150,"top 10,listicle",Entertainment,4.7,Yes
+160,"gameplay,walkthrough",Gaming,4.0,Yes
+170,"reaction,trend",Entertainment,3.0,Yes
+180,"unbox,review",Technology,2.8,Yes
+190,"news update",News,2.4,Yes
+200,"commentary,opinion",Commentary,2.0,No
