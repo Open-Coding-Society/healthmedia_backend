@@ -500,11 +500,11 @@ def average_likes():
         return 100  # Mock average for when dataset is not available
 
 def classify_rating(score):
-    if score >= 70:
+    if score >= 125:
         return "Excellent"
-    elif score >= 50:
+    elif score >= 115:
         return "Good"
-    elif score >= 30:
+    elif score >= 100:
         return "Moderate"
     else:
         return "Poor"
