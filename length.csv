@@ -1,11 +1,21 @@
-video_length_seconds,engagement_quality
-10,bad try to make it longer
-20,poor could be longer
-30,good likely to be watched
-40,excellent engagement 
-50,excellent engagement
-60,good likely to be watched
-70,good likely to be watched
-80,poor could be shorter
-90,bad try to make it shorter
-100,bad try to make it shorter
+video_length_seconds,engagement_quality,views,likes,comments,watch_time_seconds
+10,bad try to make it longer,120,3,1,5
+20,poor could be longer,200,8,2,10
+30,good likely to be watched,500,25,10,25
+40,excellent engagement,1000,100,30,38
+50,excellent engagement,950,95,28,42
+60,good likely to be watched,600,60,18,45
+70,good likely to be watched,580,58,16,50
+80,poor could be shorter,300,30,10,40
+90,bad try to make it shorter,150,5,2,35
+100,bad try to make it shorter,100,3,1,30
+110,poor could be shorter,90,2,0,28
+120,poor could be shorter,80,1,0,25
+130,good likely to be watched,400,45,15,55
+140,excellent engagement,1100,120,35,65
+150,excellent engagement,1050,115,33,70
+160,good likely to be watched,700,72,22,68
+170,poor could be shorter,350,18,5,60
+180,bad try to make it shorter,200,8,3,50
+190,bad try to make it shorter,180,5,2,45
+200,bad try to make it shorter,160,3,1,40
