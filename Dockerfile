@@ -18,5 +18,3 @@ EXPOSE 8106
 ENV FLASK_ENV=production
 
 CMD [ "gunicorn", "main:app" ]
-
-# RUN ./scripts/db_init.py
