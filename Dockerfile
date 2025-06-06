@@ -1,4 +1,4 @@
-FROM docker.io/python:3.12.8
+FROM docker.io/python:3.12
 
 WORKDIR /
 
@@ -10,13 +10,11 @@ COPY . /
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
 
-ENV GUNICORN_CMD_ARGS="--workers=3 --bind=0.0.0.0:8104"
+ENV GUNICORN_CMD_ARGS="--workers=3 --bind=0.0.0.0:8106"
 
-EXPOSE 8104
+EXPOSE 8106
 
 # Define environment variable
 ENV FLASK_ENV=production
 
 CMD [ "gunicorn", "main:app" ]
-
-RUN ./scripts/db_init.py

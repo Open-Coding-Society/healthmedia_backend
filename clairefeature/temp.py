@@ -26,6 +26,6 @@ def extract_image_features(image_path):
  
     return brightness, saturation, size
 
-brightness, saturation, size = extract_image_features('model/images/img40.jpg')
+brightness, saturation, size = extract_image_features('model/images/img100.jpg')
 
 print(f"Extracted features - Brightness: {brightness:.2f}, Saturation: {saturation:.2f}, Size: {size:.2f}")
