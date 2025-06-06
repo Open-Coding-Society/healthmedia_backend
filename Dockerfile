@@ -1,4 +1,4 @@
-FROM docker.io/python:3.12.8
+FROM docker.io/python:3.12
 
 WORKDIR /
 
