@@ -4,7 +4,7 @@ server {
         server_name healthmedia.opencodingsociety.com;
 
         location / {
-            proxy_pass http://localhost:8106;
+            proxy_pass http://localhost:4891;
 
             # Preflighted requests
             if ($request_method = OPTIONS) {
