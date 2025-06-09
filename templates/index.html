@@ -2,233 +2,180 @@
 {% set project = "Home" %}
 
 {% block head %}
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+<link rel="stylesheet" href="styles.css">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
 
-        .intro {
-            /* Changed from width: 100vw to width: 100% */
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, #1e3c72, #2a5298, #ff6b6b, #f7b733, #34e89e, #0f3443);
-            background-size: 600% 600%;
-            animation: gradientAnimation 20s ease infinite;
-            color: #ffffff;
-        }
+    .intro {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(135deg, #1e3c72, #2a5298, #ff6b6b, #f7b733, #34e89e, #0f3443);
+        background-size: 600% 600%;
+        animation: gradientAnimation 20s ease infinite;
+        color: #ffffff;
+    }
 
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-        .intro h1 {
-            font-size: 4rem;
-            font-weight: bold;
-            margin: 0;
-        }
+    .intro h1 {
+        font-size: 4rem;
+        font-weight: bold;
+        margin: 0;
+    }
 
-        .intro p {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
+    .intro p {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 10px 0;
+    }
 
-        .start-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #ffffff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
+    .start-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
 
-        .start-button:hover {
-            background-color: #0056b3;
-        }
+    .start-button:hover {
+        background-color: #0056b3;
+    }
 
-        .container {
-            width: 100vw;
-            height: 100vh; /* Ensure it takes the full height */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; /* Align items to the top */
-            align-items: center;
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            background-size: cover;
-            color: #ffffff;
-            padding: 0; /* Remove padding */
-            margin: 0; /* Remove margin */
-        }
+    .admin-section {
+        background: linear-gradient(135deg, #1a1c1e 0%, #2C3E50 100%);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
 
-        .row {
-            display: flex; /* Use flexbox for the row */
-            justify-content: center; /* Center the cards */
-            align-items: flex-start; /* Align items to the top */
-            width: 100%; /* Full width */
-            margin: 0; /* Remove margin */
-        }
+    .admin-content {
+        position: relative;
+        z-index: 2;
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-        .card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px; /* Adjust margin as needed */
-            text-align: center;
-            color: #ffffff;
-            width: 250px;
-            transition: transform 0.3s ease; /* Smooth transition */
-        }
+    .admin-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #ffffff;
+        text-align: center;
+    }
 
-        .card:hover {
-            transform: scale(0.95); /* Zoom out effect */
-        }
+    .admin-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+        padding: 0;
+    }
 
-        .card h5 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #3498db; /* Blue color for titles */
-            margin-bottom: 10px;
-        }
+    .admin-card {
+        background: rgba(44, 62, 80, 0.9);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px;
+        transition: all 0.3s ease;
+        border: 2px solid #3498DB;
+        color: #ffffff;
+        text-align: center;
+    }
 
-        .card img {
-            width: 100%;
-            border-radius: 10px;
-        }
+    .admin-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-color: #2980B9;
+    }
 
-        .btn-primary {
-            background-color: #3498db;
-            border: none;
-            color: #ffffff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-        }
+    .card-title {
+        font-size: 1.5rem;
+        color: #3498DB;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
 
-        .btn-primary:hover {
-            background-color: #2980b9;
-        }
+    .admin-button {
+        background-color: #3498db;
+        border: none;
+        color: #ffffff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 10px;
+        cursor: pointer;
+    }
 
-        .admin-title {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #ffffff;
-            text-align: center;
-        }
+    .admin-button:hover {
+        background-color: #2980b9;
+    }
 
-        /* ADDED override to remove Bootstrap's negative margins on .row */
-        .row {
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-
-        .admin-section {
-            background: linear-gradient(135deg, #1a1c1e 0%, #2C3E50 100%);
-            min-height: 100vh; /* Ensure it takes full height */
-            position: relative;
-            overflow: hidden;
-            margin: 0; /* Remove margin */
-            padding: 0; /* Remove padding */
-        }
-
-        .admin-content {
-            position: relative;
-            z-index: 2;
-            padding: 4rem 2rem; /* Adjust padding as needed */
-            max-width: 1200px;
-            margin: 0 auto; /* Center the content */
-        }
-
-        .admin-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-            padding: 0; /* Remove padding */
-        }
-
-        .admin-card {
-            background: rgba(44, 62, 80, 0.9); /* Dark semi-transparent background */
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px; /* Space between cards */
-            transition: all 0.3s ease;
-            border: 2px solid #3498DB; /* Add border around the card */
-        }
-
-        .admin-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-color: #2980B9; /* Change border color on hover */
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            color: #3498DB; /* Change this to your desired color */
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-    </style>
+    .card-img-top {
+        width: 100%;
+        border-radius: 10px;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
-    <!-- Start of body content specific to page -->
-    <div id="fullpage">
-        <div class="section">
-            <div class="intro">
-                <h1>Legendary Motorsport</h1>
-                <p>Explore, Drive, Experience the Thrill</p>
-                <a href="https://tvick22.github.io/personal_flocker_frontend/" class="start-button">Start Your Journey</a>
-            </div>
+<div id="fullpage">
+    <div class="section">
+        <div class="intro">
+            <h1>Legoland Media Hub</h1>
+            <p>Analyze, Optimize, and Elevate Our Brand</p>
+            <div class="start-button">Start Your Media Strategy</div>
         </div>
+    </div>
+
     <div class="admin-section">
-        <div class="grid-pattern"></div>
         <div class="admin-content">
-            <h1 class="admin-title">Legendary Motorsport Admin Dashboard</h1>
-            
+            <h1 class="admin-title">Legoland Social Media Dashboard</h1>
+
             <div class="admin-cards">
                 <div class="admin-card">
-                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png" alt="User Management" height="250">
-                    <h2 class="card-title">User Management</h2>
-                    <p class="card-description">Manage users, assign roles, and oversee platform administration. This links to a full list of users and management for them.</p>
-                    <a href="https://motor.stu.nighthawkcodingsociety.com/users/table" class="admin-button">Manage Users</a>
+                    <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Post Performance" height="250">
+                    <h2 class="card-title">Post Performance</h2>
+                    <p>View engagement stats by platform. Measure reach, likes, shares, and audience interactions for every post.</p>
+                    <div class="admin-button">View Insights</div>
                 </div>
+
                 <div class="admin-card">
-                    <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4Cgm5gmUHCt-j_fWNfX4BJRMR4wDIC7A-3g&s" alt="Project Overview" height="250">
-                    <h2 class="card-title">Project Overview</h2>
-                    <p class="card-description">Rev up your passion for cars on our community hub, where enthusiasts discuss everything from classic models to the latest innovations.</p>
-                    <a href="https://github.com/Tvick22/personal_flocker_frontend/issues/3" class="admin-button">Learn More</a>
+                    <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" alt="Hashtag Analytics" height="250">
+                    <h2 class="card-title">Hashtag Analytics</h2>
+                    <p>Analyze trending hashtags across Instagram and TikTok. Discover which tags bring in the most views and interactions.</p>
+                    <div class="admin-button">Explore Hashtags</div>
                 </div>
+
                 <div class="admin-card">
-                    <img class="card-img-top" src="https://media.istockphoto.com/id/1416937202/vector/settings-or-gear-icon-cog-setting-vector-illustration.jpg?s=612x612&w=0&k=20&c=3vVNW4ssuNPwKUMT5HSMEbUlknZmp5FeEBF1eZTzJYA=" alt="System Settings" height="250">
-                    <h2 class="card-title">System Settings</h2>
-                    <p class="card-description">Configure system parameters, backup data, and manage server settings.</p>
-                    <a href="https://cockpit.stu.nighthawkcodingsociety.com/system/terminal" class="admin-button">Settings</a>
+                    <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Campaign Planner" height="250">
+                    <h2 class="card-title">Campaign Planner</h2>
+                    <p>Schedule upcoming content, coordinate posts by season or attraction, and assign content to media team members.</p>
+                    <div class="admin-button">Open Planner</div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
-
