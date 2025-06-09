@@ -4,7 +4,7 @@ import os
 
 length_bp = Blueprint("length", __name__, url_prefix="/api/lengths")
 
-# Define relative paths to CSVs
+# Defines relative paths to CSVs
 base_dir = os.path.dirname(__file__)
 csv_paths = {
     "length": os.path.join(base_dir, "../length.csv"),
@@ -30,7 +30,15 @@ merged_df = load_and_merge_data()
 @length_bp.route("/predict", methods=["GET"])
 def predict():
     try:
-        video_length = int(request.args.get("video_length_seconds"))
+        length_str = request.args.get("video_length_seconds")
+        if length_str is None:
+            return jsonify({"error": "Missing required query parameter: video_length_seconds"}), 400
+
+        try:
+            video_length = int(length_str)
+        except ValueError:
+            return jsonify({"error": "Invalid video_length_seconds, must be an integer"}), 400
+
         # Find closest match by video length
         closest_row = merged_df.iloc[(merged_df["video_length_seconds"] - video_length).abs().argmin()]
 
@@ -79,7 +87,6 @@ def summary():
         avg_length = float(merged_df["video_length_seconds"].mean())
 
         # Top 5 video lengths by engagement_quality (assuming engagement_quality can be ranked)
-        # If engagement_quality is categorical (e.g., "High", "Medium", "Low"), you can map to numeric for sorting
         engagement_map = {"Low": 1, "Medium": 2, "High": 3}
         merged_df["engagement_rank"] = merged_df["engagement_quality"].map(engagement_map).fillna(0)
         top_engagement = merged_df.sort_values(by="engagement_rank", ascending=False).head(5)
@@ -98,7 +105,6 @@ def summary():
 def chart_data():
     try:
         # Return trimmed data for charts
-        # Let's provide video_length_seconds and key metrics for charts
         data = merged_df[[
             "video_length_seconds",
             "engagement_quality",
@@ -112,7 +118,7 @@ def chart_data():
             "positive",
             "neutral",
             "negative"
-        ]]
+        ]].copy()  # safer to copy before modifying
 
         # Map engagement_quality to numeric score for charting
         engagement_map = {"Low": 1, "Medium": 2, "High": 3}
