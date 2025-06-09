@@ -4,7 +4,7 @@ import os
 
 length_bp = Blueprint("length", __name__, url_prefix="/api/lengths")
 
-# Define relative paths to CSVs
+# Defines relative paths to CSVs
 base_dir = os.path.dirname(__file__)
 csv_paths = {
     "length": os.path.join(base_dir, "../length.csv"),
