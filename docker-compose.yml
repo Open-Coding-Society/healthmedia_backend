@@ -1,4 +1,4 @@
-version: '3'
+version: '3.12.3'
 services:
         web:
                 image: healthmedia
@@ -6,7 +6,7 @@ services:
                 env_file:
                         - .env # This file is optional; defaults will be used if it does not exist
                 ports:
-                        - "4891:4891"
+                        - "8891:8891"
                 volumes:
                         - ./instance:/instance
                 restart: unless-stopped

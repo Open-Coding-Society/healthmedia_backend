@@ -17,7 +17,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # Allowed servers for cross-origin resource sharing (CORS), these are GitHub Pages and localhost for GitHub Pages testing
-cors = CORS(app, supports_credentials=True, origins=['http://localhost:4891', 'http://127.0.0.1:4891', 'https://open-coding-society.github.io'])
+cors = CORS(app, supports_credentials=True, origins=['http://localhost:8891', 'http://127.0.0.1:8891', 'https://open-coding-society.github.io'])
 
 # System Defaults
 app.config['ADMIN_USER'] = os.environ.get('ADMIN_USER') or 'admin'
