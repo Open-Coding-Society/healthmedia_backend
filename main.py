@@ -40,11 +40,12 @@ CORS(app,
          "http://127.0.0.1:4100",  # Your Jekyll dev server
          "http://127.0.0.1:8080",
          "https://healthmedia.opencodingsociety.com",
-         # Add your actual frontend domain here
+         "https://open-coding-society.github.io",  # YOUR GITHUB PAGES DOMAIN
+         "https://open-coding-society.github.io/healthmedia"  # With path if needed
      ],
      allow_headers=["Content-Type", "Authorization", "X-Origin", "Accept"],
      allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     supports_credentials=True
+     supports_credentials=False  # Changed to False to avoid more CORS issues
 )
 
 # REMOVE THE MANUAL CORS HANDLERS TO AVOID CONFLICTS
