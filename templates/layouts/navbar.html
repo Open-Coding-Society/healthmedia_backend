@@ -3,90 +3,105 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
     <div class="container-fluid">
-        <div class="btn-group">
+        <a class="navbar-brand" href="https://csp.nighthawkcodingsociety.com/">
             <img src="{{ url_for('static', filename='assets/ncs_logo.png') }}" width="50" height="50" class="d-inline-block align-center" alt="">
-            <a class="navbar-brand" href="https://csp.nighthawkcodingsociety.com/">{{ basename }}</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            {{ basename }}
+        </a>
 
-            <div class="navbar-nav">
-                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
-            </div>
-        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div class="btn-group">
-            <!-- Search Box -->
-            <div class="px-3" style="height:30px;">
-                <input id="search" type="search" placeholder="Search" aria-label="Search">
-            </div>
-            
-            {% if current_user.is_authenticated %}
-                <div class="dropdown px-3">
-                    <span class="dropdown-toggle link-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ current_user.name }}
-                    </span>
-                    <ul class="dropdown-menu dropdown-menu-dark">
-                        <li>
-                            <div class="dropdown-item">
-                                <p style="margin-bottom:2px"><strong>ID:</strong> {{ current_user.uid }}</p>
-                                <p style="margin-bottom:2px"><strong>ROLE:</strong> {{ current_user.role }}</p>
-                            </div>
-                        </li>
-                        <li><a class="dropdown-item active" href="{{ url_for('logout') }}">Logout</a></li>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                
+                <!-- Data Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dataDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Data
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dataDropdown">
+                        <li><a class="dropdown-item" href="{{ url_for('user_management') }}">User Management</a></li>
                     </ul>
-                </div>
-            {% else %}
-                <a href="{{ url_for('login') }}" class="px-3 link-dark">Login</a>
-            {% endif %}
+                </li>
+            </ul>
 
-            <!-- Dark mode action -->
-            <div class="form-check form-switch">
-                <label class="custom-control-label" for="darkSwitch"></label>
-                <input type="checkbox" onclick="darkFunction()" class="form-check-input link-dark" id="darkSwitch">
+            <!-- Right-side Controls -->
+            <div class="d-flex align-items-center">
+                <!-- Search Box -->
+                <input id="search" type="search" class="form-control me-3" placeholder="Search" aria-label="Search" style="height:30px;">
+
+                {% if current_user.is_authenticated %}
+                    <!-- User Dropdown -->
+                    <div class="dropdown me-3">
+                        <span class="dropdown-toggle link-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ current_user.name }}
+                        </span>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li>
+                                <div class="dropdown-item">
+                                    <p style="margin-bottom:2px"><strong>ID:</strong> {{ current_user.uid }}</p>
+                                    <p style="margin-bottom:2px"><strong>ROLE:</strong> {{ current_user.role }}</p>
+                                </div>
+                            </li>
+                            <li><a class="dropdown-item active" href="{{ url_for('logout') }}">Logout</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="me-3 link-dark">Login</a>
+                {% endif %}
+
+                <!-- Dark Mode Toggle -->
+                <div class="form-check form-switch">
+                    <input type="checkbox" onclick="darkFunction()" class="form-check-input link-dark" id="darkSwitch">
+                    <label class="form-check-label" for="darkSwitch"></label>
+                </div>
             </div>
         </div>
-
-        <!-- Navigation bar JavaScript support -->
-        <script>
-            const search = document.getElementById('search');
-            const google = 'https://www.google.com/search?q=site%3A+';
-            const site = 'https://nighthawkcodingsociety.com';
-
-            function submitted(event) {
-                if (event.key === 'Enter') {
-                    const reduction = 0.66;
-                    const w = Math.trunc(window.innerWidth * reduction);
-                    const h = Math.trunc(window.outerHeight * reduction);
-                    const l = Math.trunc(window.top.screenX + ((window.innerWidth - w) / 2));
-                    const t = Math.trunc(window.top.screenY + ((window.outerHeight - h) / 2));
-                    const location = `left=${l}, top=${t}, width=${w}, height=${h}`;
-
-                    event.preventDefault();
-                    const url = google + site + '+' + search.value;
-                    const win = window.open(url, "CompSci A Search", location);
-                    win.focus();
-                }
-            }
-
-            search.addEventListener('keypress', submitted);
-
-            const darkSwitch = document.getElementById("darkSwitch");
-
-            if (darkSwitch) {
-                const darkSwitchSelected = localStorage.getItem("darkSwitch") === "dark";
-                darkSwitch.checked = darkSwitchSelected;
-                if (darkSwitchSelected) {
-                    document.body.classList.toggle("dark-mode");
-                }
-            }
-
-            function darkFunction() {
-                document.body.classList.toggle("dark-mode");
-                darkSwitch.checked
-                    ? localStorage.setItem("darkSwitch", "dark")
-                    : localStorage.removeItem("darkSwitch");
-            }
-        </script>
     </div>
+
+    <!-- Navigation bar JavaScript support -->
+    <script>
+        const search = document.getElementById('search');
+        const google = 'https://www.google.com/search?q=site%3A+';
+        const site = 'https://nighthawkcodingsociety.com';
+
+        function submitted(event) {
+            if (event.key === 'Enter') {
+                const reduction = 0.66;
+                const w = Math.trunc(window.innerWidth * reduction);
+                const h = Math.trunc(window.outerHeight * reduction);
+                const l = Math.trunc(window.top.screenX + ((window.innerWidth - w) / 2));
+                const t = Math.trunc(window.top.screenY + ((window.outerHeight - h) / 2));
+                const location = `left=${l}, top=${t}, width=${w}, height=${h}`;
+
+                event.preventDefault();
+                const url = google + site + '+' + search.value;
+                const win = window.open(url, "CompSci A Search", location);
+                win.focus();
+            }
+        }
+
+        search.addEventListener('keypress', submitted);
+
+        const darkSwitch = document.getElementById("darkSwitch");
+        if (darkSwitch) {
+            const darkSwitchSelected = localStorage.getItem("darkSwitch") === "dark";
+            darkSwitch.checked = darkSwitchSelected;
+            if (darkSwitchSelected) {
+                document.body.classList.toggle("dark-mode");
+            }
+        }
+
+        function darkFunction() {
+            document.body.classList.toggle("dark-mode");
+            darkSwitch.checked
+                ? localStorage.setItem("darkSwitch", "dark")
+                : localStorage.removeItem("darkSwitch");
+        }
+    </script>
 </nav>

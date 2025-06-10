@@ -8,6 +8,7 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+        font-family: 'Segoe UI', sans-serif;
     }
 
     .intro {
@@ -18,10 +19,10 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        background: linear-gradient(135deg, #1e3c72, #2a5298, #ff6b6b, #f7b733, #34e89e, #0f3443);
+        background: linear-gradient(135deg, #ffcc00, #ff6666, #66ccff, #99ff99, #ff99cc);
         background-size: 600% 600%;
         animation: gradientAnimation 20s ease infinite;
-        color: #ffffff;
+        color: #333333;
     }
 
     @keyframes gradientAnimation {
@@ -38,29 +39,30 @@
 
     .intro p {
         font-size: 1.5rem;
-        font-weight: bold;
+        font-weight: 500;
         margin: 10px 0;
     }
 
     .start-button {
         margin-top: 20px;
-        padding: 10px 20px;
+        padding: 12px 25px;
         font-size: 16px;
         color: #ffffff;
-        background-color: #007bff;
+        background-color: #ff5733;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
         text-decoration: none;
         display: inline-block;
+        transition: background-color 0.3s ease;
     }
 
     .start-button:hover {
-        background-color: #0056b3;
+        background-color: #e03c1d;
     }
 
     .admin-section {
-        background: linear-gradient(135deg, #1a1c1e 0%, #2C3E50 100%);
+        background: #f7f7f7;
         min-height: 100vh;
         position: relative;
         overflow: hidden;
@@ -77,10 +79,10 @@
     }
 
     .admin-title {
-        font-size: 3rem;
+        font-size: 2.75rem;
         font-weight: bold;
-        margin-top: 20px;
-        color: #ffffff;
+        margin-bottom: 20px;
+        color: #333;
         text-align: center;
     }
 
@@ -88,48 +90,48 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 2rem;
-        margin-top: 3rem;
-        padding: 0;
     }
 
     .admin-card {
-        background: rgba(44, 62, 80, 0.9);
-        border-radius: 10px;
+        background: #ffffff;
+        border-radius: 15px;
         padding: 20px;
-        margin: 10px;
-        transition: all 0.3s ease;
-        border: 2px solid #3498DB;
-        color: #ffffff;
-        text-align: center;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 3px solid #ffcc00;
     }
 
     .admin-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        border-color: #2980B9;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     }
 
     .card-title {
         font-size: 1.5rem;
-        color: #3498DB;
-        margin-bottom: 1rem;
-        font-weight: 600;
+        color: #ff5733;
+        font-weight: bold;
+        margin-top: 1rem;
+    }
+
+    .card-description {
+        color: #555;
+        font-size: 1rem;
+        margin: 10px 0;
     }
 
     .admin-button {
-        background-color: #3498db;
+        background-color: #3399ff;
         border: none;
-        color: #ffffff;
+        color: #fff;
         padding: 10px 20px;
         text-decoration: none;
         border-radius: 5px;
         display: inline-block;
-        margin-top: 10px;
-        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     .admin-button:hover {
-        background-color: #2980b9;
+        background-color: #267ac9;
     }
 
     .card-img-top {
@@ -143,37 +145,38 @@
 <div id="fullpage">
     <div class="section">
         <div class="intro">
-            <h1>Legoland Media Hub</h1>
-            <p>Analyze, Optimize, and Elevate Our Brand</p>
-            <div class="start-button">Start Your Media Strategy</div>
+            <h1>Legoland Social Hub</h1>
+            <p>Build. Share. Connect. One Brick at a Time.</p>
+            <a href="https://tvick22.github.io/personal_flocker_frontend/" class="start-button">Enter the Hub</a>
         </div>
     </div>
 
     <div class="admin-section">
         <div class="admin-content">
-            <h1 class="admin-title">Legoland Social Media Dashboard</h1>
-
+            <h1 class="admin-title">Legoland Social Media Optimization Dashboard</h1>
             <div class="admin-cards">
+
                 <div class="admin-card">
-                    <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Post Performance" height="250">
-                    <h2 class="card-title">Post Performance</h2>
-                    <p>View engagement stats by platform. Measure reach, likes, shares, and audience interactions for every post.</p>
-                    <div class="admin-button">View Insights</div>
+                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png" alt="User Profiles" height="250">
+                    <h2 class="card-title">User Profiles</h2>
+                    <p class="card-description">Oversee user accounts and content builders to encourage community engagement and creative sharing.</p>
+                    <a href="https://motor.stu.nighthawkcodingsociety.com/users/table" class="admin-button">Manage Users</a>
                 </div>
 
                 <div class="admin-card">
-                    <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" alt="Hashtag Analytics" height="250">
-                    <h2 class="card-title">Hashtag Analytics</h2>
-                    <p>Analyze trending hashtags across Instagram and TikTok. Discover which tags bring in the most views and interactions.</p>
-                    <div class="admin-button">Explore Hashtags</div>
+                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/06/06/00/32/social-media-2375554_960_720.png" alt="Content Strategy" height="250">
+                    <h2 class="card-title">Content Strategy</h2>
+                    <p class="card-description">Plan optimized posts, analyze trends, and monitor engagement across Legoland social platforms.</p>
+                    <a href="https://github.com/Tvick22/personal_flocker_frontend/issues/3" class="admin-button">Explore Ideas</a>
                 </div>
 
                 <div class="admin-card">
-                    <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Campaign Planner" height="250">
-                    <h2 class="card-title">Campaign Planner</h2>
-                    <p>Schedule upcoming content, coordinate posts by season or attraction, and assign content to media team members.</p>
-                    <div class="admin-button">Open Planner</div>
+                    <img class="card-img-top" src="https://cdn.pixabay.com/photo/2017/06/06/00/35/settings-2375587_1280.png" alt="Platform Settings" height="250">
+                    <h2 class="card-title">Platform Settings</h2>
+                    <p class="card-description">Adjust theme colors, manage server-side optimizations, and maintain platform reliability.</p>
+                    <a href="https://cockpit.stu.nighthawkcodingsociety.com/system/terminal" class="admin-button">Adjust Settings</a>
                 </div>
+
             </div>
         </div>
     </div>
