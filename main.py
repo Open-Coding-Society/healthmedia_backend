@@ -4,7 +4,7 @@ import os
 import ast
 import flask
 from urllib.parse import urljoin, urlparse
-from flask import abort, redirect, render_template, request, send_from_directory, url_for, jsonify  # import render_template from "public" flask libraries
+from flask import abort, redirect, render_template, request, send_from_directory, url_for, jsonify, Response
 from flask_login import current_user, login_user, logout_user
 from flask.cli import AppGroup
 from flask_login import current_user, login_required
@@ -28,48 +28,8 @@ import numpy as np
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects 
 
-# FIXED CORS CONFIGURATION - REMOVE CONFLICTS
-# Configure CORS once and properly
-CORS(app, 
-     origins=[
-         "http://localhost:3000",
-         "http://localhost:4000", 
-         "http://localhost:8080",
-         "http://127.0.0.1:3000",
-         "http://127.0.0.1:4000",
-         "http://127.0.0.1:4100",  # Your Jekyll dev server
-         "http://127.0.0.1:8080",
-         "https://healthmedia.opencodingsociety.com",
-         "https://open-coding-society.github.io",  # YOUR GITHUB PAGES DOMAIN
-         "https://open-coding-society.github.io/healthmedia"  # With path if needed
-     ],
-     allow_headers=["Content-Type", "Authorization", "X-Origin", "Accept"],
-     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     supports_credentials=False  # Changed to False to avoid more CORS issues
-)
-
-# REMOVE THE MANUAL CORS HANDLERS TO AVOID CONFLICTS
-# Comment out or remove these sections that were causing duplicate headers:
-
-# @app.before_request
-# def handle_preflight():
-#     if request.method == "OPTIONS":
-#         response = flask.Response()
-#         response.headers.add("Access-Control-Allow-Origin", request.headers.get('Origin', '*'))
-#         response.headers.add('Access-Control-Allow-Headers', "Content-Type,Authorization,X-Origin,Accept,X-Requested-With,Cache-Control")
-#         response.headers.add('Access-Control-Allow-Methods', "GET,PUT,POST,DELETE,OPTIONS")
-#         response.headers.add('Access-Control-Allow-Credentials', 'true')
-#         return response
-
-# @app.after_request
-# def after_request(response):
-#     origin = request.headers.get('Origin')
-#     if origin:
-#         response.headers.add('Access-Control-Allow-Origin', origin)
-#         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Origin,Accept,X-Requested-With,Cache-Control')
-#         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-#         response.headers.add('Access-Control-Allow-Credentials', 'true')
-#     return response
+# SINGLE, CLEAN CORS CONFIGURATION
+CORS(app, origins=["https://open-coding-society.github.io"], supports_credentials=False)
 
 # API endpoints
 from api.user import user_api 
@@ -205,123 +165,6 @@ def api_get_user_id():
     except Exception as e:
         print(f"Get user ID error: {e}")
         return jsonify({'message': 'Error getting user info'}), 500
-
-@app.route('/api/user', methods=['POST'])
-def api_create_user():
-    """API endpoint for user registration - returns JSON"""
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({'message': 'No data provided'}), 400
-            
-        name = data.get('name')
-        uid = data.get('uid')
-        password = data.get('password')
-        
-        if not all([name, uid, password]):
-            return jsonify({'message': 'Name, uid, and password are required'}), 400
-        
-        # Check if user already exists
-        existing_user = User.query.filter_by(_uid=uid).first()
-        if existing_user:
-            return jsonify({'message': 'User already exists'}), 409
-        
-        # Create new user
-        user = User(name=name, uid=uid, password=password)
-        user.create()
-        
-        return jsonify({
-            'message': 'User created successfully',
-            'uid': uid,
-            'name': name
-        }), 201
-        
-    except Exception as e:
-        print(f"User creation error: {e}")
-        return jsonify({'message': 'User creation failed'}), 500
-
-@app.route('/api/user', methods=['PUT'])
-def api_update_user():
-    """API endpoint to update user info"""
-    if not current_user.is_authenticated:
-        return jsonify({'message': 'Not authenticated'}), 401
-    
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({'message': 'No data provided'}), 400
-        
-        # Update user fields
-        if 'name' in data:
-            current_user._name = data['name']
-        if 'uid' in data:
-            current_user._uid = data['uid']
-        if 'password' in data:
-            current_user.set_password(data['password'])
-        
-        # Save changes
-        db.session.commit()
-        
-        return jsonify({'message': 'User updated successfully'}), 200
-        
-    except Exception as e:
-        print(f"User update error: {e}")
-        return jsonify({'message': 'Update failed'}), 500
-
-@app.route('/api/user', methods=['GET'])
-def api_get_user():
-    """API endpoint to get user info"""
-    if not current_user.is_authenticated:
-        return jsonify({'message': 'Not authenticated'}), 401
-    
-    try:
-        return jsonify({
-            'uid': current_user._uid,
-            'name': current_user._name,
-            'role': current_user._role if hasattr(current_user, '_role') else 'user'
-        }), 200
-    except Exception as e:
-        print(f"Get user error: {e}")
-        return jsonify({'message': 'Error getting user info'}), 500
-
-@app.route('/api/id/pfp', methods=['GET'])
-def api_get_profile_picture():
-    """API endpoint to get user profile picture"""
-    if not current_user.is_authenticated:
-        return jsonify({'message': 'Not authenticated'}), 401
-    
-    try:
-        # Assuming your User model has a pfp field
-        pfp_data = current_user._pfp if hasattr(current_user, '_pfp') else None
-        return jsonify({
-            'uid': current_user._uid,
-            'name': current_user._name,
-            'pfp': pfp_data
-        }), 200
-    except Exception as e:
-        print(f"Get profile picture error: {e}")
-        return jsonify({'message': 'Error getting profile picture'}), 500
-
-@app.route('/api/id/pfp', methods=['PUT'])
-def api_update_profile_picture():
-    """API endpoint to update user profile picture"""
-    if not current_user.is_authenticated:
-        return jsonify({'message': 'Not authenticated'}), 401
-    
-    try:
-        data = request.get_json()
-        if not data or 'pfp' not in data:
-            return jsonify({'message': 'No profile picture data provided'}), 400
-        
-        # Update profile picture
-        current_user._pfp = data['pfp']
-        db.session.commit()
-        
-        return jsonify({'message': 'Profile picture updated successfully'}), 200
-        
-    except Exception as e:
-        print(f"Profile picture update error: {e}")
-        return jsonify({'message': 'Profile picture update failed'}), 500
 
 # =================================================================================
 # SENTIMENT ANALYSIS FUNCTIONS AND ENDPOINTS (from app.py)
@@ -793,4 +636,4 @@ app.cli.add_command(custom_cli)
 # this runs the flask application on the development server
 if __name__ == "__main__":
     # change name for testing
-    app.run(debug=True, host="0.0.0.0", port="8891") #8106
+    app.run(debug=True, host="0.0.0.0", port="8891")
