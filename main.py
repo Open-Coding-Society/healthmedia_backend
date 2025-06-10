@@ -28,8 +28,47 @@ import numpy as np
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects 
 
-# Add CORS support
-CORS(app, supports_credentials=True)
+# FIXED CORS CONFIGURATION - REMOVE CONFLICTS
+# Configure CORS once and properly
+CORS(app, 
+     origins=[
+         "http://localhost:3000",
+         "http://localhost:4000", 
+         "http://localhost:8080",
+         "http://127.0.0.1:3000",
+         "http://127.0.0.1:4000",
+         "http://127.0.0.1:4100",  # Your Jekyll dev server
+         "http://127.0.0.1:8080",
+         "https://healthmedia.opencodingsociety.com",
+         # Add your actual frontend domain here
+     ],
+     allow_headers=["Content-Type", "Authorization", "X-Origin", "Accept"],
+     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     supports_credentials=True
+)
+
+# REMOVE THE MANUAL CORS HANDLERS TO AVOID CONFLICTS
+# Comment out or remove these sections that were causing duplicate headers:
+
+# @app.before_request
+# def handle_preflight():
+#     if request.method == "OPTIONS":
+#         response = flask.Response()
+#         response.headers.add("Access-Control-Allow-Origin", request.headers.get('Origin', '*'))
+#         response.headers.add('Access-Control-Allow-Headers', "Content-Type,Authorization,X-Origin,Accept,X-Requested-With,Cache-Control")
+#         response.headers.add('Access-Control-Allow-Methods', "GET,PUT,POST,DELETE,OPTIONS")
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#         return response
+
+# @app.after_request
+# def after_request(response):
+#     origin = request.headers.get('Origin')
+#     if origin:
+#         response.headers.add('Access-Control-Allow-Origin', origin)
+#         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Origin,Accept,X-Requested-With,Cache-Control')
+#         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#     return response
 
 # API endpoints
 from api.user import user_api 
