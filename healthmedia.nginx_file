@@ -1,19 +1,15 @@
 server {
-        listen 80;
-        listen [::]:80;
-        server_name healthmedia.opencodingsociety.com;
+    listen 80;
+    listen [::]:80;
+    server_name healthmedia.opencodingsociety.com;
 
-        location / {
-            proxy_pass http://localhost:8891;
-
-            # Preflighted requests
-            if ($request_method = OPTIONS) {
-                add_header "Access-Control-Allow-Credentials" "true" always;
-                add_header "Access-Control-Allow-Origin"  "https://open-coding-society.github.io" always;
-                add_header "Access-Control-Allow-Methods" "GET, POST, PUT, DELETE, OPTIONS, HEAD" always;
-                add_header "Access-Control-Allow-MaxAge" 600 always;
-                add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Origin, X-Requested-With, Content-Type, Accept" always;
-                return 204;
-            }
-        }
+    location / {
+        proxy_pass http://localhost:8891;
+        
+        # Basic proxy headers (CORS headers removed)
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
+}
