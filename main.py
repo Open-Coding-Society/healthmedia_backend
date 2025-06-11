@@ -28,8 +28,7 @@ import numpy as np
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects 
 
-# SINGLE, CLEAN CORS CONFIGURATION
-CORS(app, origins=["https://open-coding-society.github.io"], supports_credentials=False)
+
 
 # API endpoints
 from api.user import user_api 
