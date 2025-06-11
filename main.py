@@ -10,7 +10,6 @@ from flask.cli import AppGroup
 from flask_login import current_user, login_required
 from flask import current_app
 from werkzeug.security import generate_password_hash
-from flask_cors import CORS
 import shutil
 import datetime
 
